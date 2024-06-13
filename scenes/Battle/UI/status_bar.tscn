@@ -9,10 +9,11 @@
 [ext_resource type="Texture2D" uid="uid://cw6vn1xoe8d3j" path="res://Assets/StatusBar/CPPoint.svg" id="7_0ma8t"]
 
 [node name="StatusBar" type="Control"]
+custom_minimum_size = Vector2(370, 100)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 384.0
+offset_bottom = 125.0
 script = ExtResource("1_4sc3m")
 active_color = Color(0.202387, 0.751306, 0.811684, 1)
 inactive_color = Color(0.0196078, 0.156863, 0.145098, 1)

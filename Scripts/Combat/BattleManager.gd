@@ -22,7 +22,7 @@ var status_bars =[]
 var party_data =[
 	{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 100},
 	{"name": "Aislin", "agility": 10, "health": 80, "bep_max": 100},
-	{"name": "Connall", "agility": 12, "health": 120, "bep_max": 100}
+	#{"name": "Connall", "agility": 12, "health": 120, "bep_max": 100}
 ]
 var enemy_data = [
 	{"name": "Soldier", "agility": 8, "health": 50, "bep_max": 100},
@@ -45,10 +45,11 @@ func init_party():
 		member.connect("turn_ended", Callable(self, "_on_turn_ended"))
 		add_child(member)
 		party.append(member)
+		
  		# Assign character node to the corresponding status bar
 		var status_bar = status_bar_scene.instantiate()
 		status_bar.set_character(member)  # Use a method to set the character
-		add_child(status_bar)
+		$StatusBarContainer.add_child(status_bar)
 		status_bars.append(status_bar)
 		
 func init_enemies():
