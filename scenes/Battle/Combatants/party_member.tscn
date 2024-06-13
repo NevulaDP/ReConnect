@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://lybnga3a1dup"]
+
+[ext_resource type="Script" path="res://Scripts/Combat/Party/Character.gd" id="1_5flig"]
+
+[node name="PartyMember" type="Node2D"]
+script = ExtResource("1_5flig")
+
+[node name="Sprite" type="Sprite2D" parent="."]
