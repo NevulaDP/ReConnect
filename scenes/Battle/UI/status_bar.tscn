@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bsu4g8ey1u3wc" path="res://Assets/StatusBar/HPBar.svg" id="4_s4fxa"]
 [ext_resource type="Texture2D" uid="uid://cuaxs3kqjqtdr" path="res://Assets/StatusBar/BEBar_Back.svg" id="5_u782r"]
 [ext_resource type="Texture2D" uid="uid://ckiq1cchrek0p" path="res://Assets/StatusBar/BEBar.svg" id="6_x45dl"]
-[ext_resource type="Texture2D" uid="uid://dpi3lwtj7d2u6" path="res://Assets/StatusBar/CPPoint_Back.svg" id="7_bfvu3"]
+[ext_resource type="Texture2D" uid="uid://cw6vn1xoe8d3j" path="res://Assets/StatusBar/CPPoint.svg" id="7_0ma8t"]
 
 [node name="StatusBar" type="Control"]
 layout_mode = 3
@@ -59,37 +59,37 @@ theme_override_constants/separation = 6
 [node name="CP1" type="TextureRect" parent="CharPointBar"]
 layout_mode = 2
 size_flags_horizontal = 8
-texture = ExtResource("7_bfvu3")
+texture = ExtResource("7_0ma8t")
 stretch_mode = 2
 
 [node name="CP2" type="TextureRect" parent="CharPointBar"]
 layout_mode = 2
 size_flags_horizontal = 8
-texture = ExtResource("7_bfvu3")
+texture = ExtResource("7_0ma8t")
 stretch_mode = 2
 
 [node name="CP3" type="TextureRect" parent="CharPointBar"]
 layout_mode = 2
 size_flags_horizontal = 8
-texture = ExtResource("7_bfvu3")
+texture = ExtResource("7_0ma8t")
 stretch_mode = 2
 
 [node name="CP4" type="TextureRect" parent="CharPointBar"]
 layout_mode = 2
 size_flags_horizontal = 8
-texture = ExtResource("7_bfvu3")
+texture = ExtResource("7_0ma8t")
 stretch_mode = 2
 
 [node name="CP5" type="TextureRect" parent="CharPointBar"]
 layout_mode = 2
 size_flags_horizontal = 8
-texture = ExtResource("7_bfvu3")
+texture = ExtResource("7_0ma8t")
 stretch_mode = 2
 
 [node name="CP6" type="TextureRect" parent="CharPointBar"]
 layout_mode = 2
 size_flags_horizontal = 8
-texture = ExtResource("7_bfvu3")
+texture = ExtResource("7_0ma8t")
 stretch_mode = 2
 
 [node name="HPLabel" type="Label" parent="."]
@@ -102,6 +102,7 @@ theme_override_font_sizes/font_size = 12
 text = "HP"
 
 [node name="BEPLabel" type="Label" parent="."]
+layout_mode = 0
 offset_left = 286.0
 offset_top = 68.0
 offset_right = 304.0
@@ -120,6 +121,7 @@ text = "4150"
 horizontal_alignment = 2
 
 [node name="BEPLabelValue" type="Label" parent="."]
+layout_mode = 0
 offset_left = 306.0
 offset_top = 57.0
 offset_right = 358.0
@@ -129,6 +131,7 @@ text = "130"
 horizontal_alignment = 2
 
 [node name="CharacterLabel" type="Label" parent="."]
+layout_mode = 0
 offset_left = 15.0
 offset_top = 9.0
 offset_right = 67.0

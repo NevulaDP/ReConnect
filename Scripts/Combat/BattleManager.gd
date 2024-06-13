@@ -20,13 +20,13 @@ var status_bars =[]
 
 ##Test party##
 var party_data =[
-	{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 10},
-	{"name": "Aislin", "agility": 10, "health": 80, "bep_max": 15},
-	{"name": "Connall", "agility": 12, "health": 120, "bep_max": 8}
+	{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 100},
+	{"name": "Aislin", "agility": 10, "health": 80, "bep_max": 100},
+	{"name": "Connall", "agility": 12, "health": 120, "bep_max": 100}
 ]
 var enemy_data = [
-	{"name": "Soldier", "agility": 8, "health": 50, "bep_max": 5},
-	{"name": "Scientist", "agility": 7, "health": 70, "bep_max": 6}		
+	{"name": "Soldier", "agility": 8, "health": 50, "bep_max": 100},
+	{"name": "Scientist", "agility": 7, "health": 70, "bep_max": 100}		
 ]
 
 # called puon entering the scene tree for the first time
@@ -45,6 +45,11 @@ func init_party():
 		member.connect("turn_ended", Callable(self, "_on_turn_ended"))
 		add_child(member)
 		party.append(member)
+ 		# Assign character node to the corresponding status bar
+		var status_bar = status_bar_scene.instantiate()
+		status_bar.set_character(member)  # Use a method to set the character
+		add_child(status_bar)
+		status_bars.append(status_bar)
 		
 func init_enemies():
 	for data in enemy_data:
@@ -55,11 +60,11 @@ func init_enemies():
 		enemies.append(enemy)
 
 func init_ui():
-	for member in party:
-		var status_bar = status_bar_scene.instantiate()
-		add_child(status_bar)
-		status_bar.character = member
-		status_bars.append(status_bar)
+	#for member in party:
+		#var status_bar = status_bar_scene.instantiate()
+		#add_child(status_bar)
+		#status_bar.character = member
+		#status_bars.append(status_bar)
 	
 	action_menu = action_menu_scene.instantiate()
 	add_child(action_menu)

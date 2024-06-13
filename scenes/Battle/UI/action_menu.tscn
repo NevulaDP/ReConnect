@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgmui154ri40k"]
+
+[ext_resource type="Script" path="res://Scripts/Combat/UI/ActionMenu.gd" id="1_tbl3p"]
+
+[node name="ActionMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_tbl3p")
+
+[node name="AttackButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 76.0
+offset_bottom = 19.0
+text = "Attack
+"
+
+[node name="DefendButton" type="Button" parent="."]
+offset_top = 34.0
+offset_right = 76.0
+offset_bottom = 65.0
+text = "Defend
+"
+
+[node name="AbilityButton" type="Button" parent="."]
+offset_top = 68.0
+offset_right = 76.0
+offset_bottom = 99.0
+text = "Ability
+"
