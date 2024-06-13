@@ -20,13 +20,13 @@ var status_bars =[]
 
 ##Test party##
 var party_data =[
-	{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 100},
-	{"name": "Aislin", "agility": 10, "health": 80, "bep_max": 100},
-	#{"name": "Connall", "agility": 12, "health": 120, "bep_max": 100}
+	{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 100,"max_health":100},
+	#{"name": "Aislin", "agility": 10, "health": 80, "bep_max": 100,"max_health":80},
+	#{"name": "Connall", "agility": 12, "health": 180, "bep_max": 100,"max_health":180}
 ]
 var enemy_data = [
-	{"name": "Soldier", "agility": 8, "health": 50, "bep_max": 100},
-	{"name": "Scientist", "agility": 7, "health": 70, "bep_max": 100}		
+	{"name": "Soldier", "agility": 8, "health": 50, "bep_max": 100,"max_health":180},
+	{"name": "Scientist", "agility": 7, "health": 70, "bep_max": 100,"max_health":180}		
 ]
 
 # called puon entering the scene tree for the first time
@@ -124,7 +124,7 @@ func _on_turn_ended():
 	start_turn(all_combatants[current_turn_index])
 	
 func show_action_menu(character):
-	action_menu.show
+	action_menu.show()
 	
 # Handles selected action
 

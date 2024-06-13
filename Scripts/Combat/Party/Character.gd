@@ -56,6 +56,7 @@ func set_data(data):
 	bep_max = data["bep_max"]
 	bep_current = bep_max
 	health = data["health"]
+	health_max = data["max_health"]
 	cp_current=2
 	used_ability=false
 
