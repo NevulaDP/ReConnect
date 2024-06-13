@@ -1,0 +1,137 @@
+[gd_scene load_steps=8 format=3 uid="uid://hkh7bwcwl0w5"]
+
+[ext_resource type="Script" path="res://Scripts/Combat/UI/StatusBar.gd" id="1_4sc3m"]
+[ext_resource type="Texture2D" uid="uid://mehf6ky8hyo4" path="res://Assets/StatusBar/Status.svg" id="2_w4xtb"]
+[ext_resource type="Texture2D" uid="uid://b4ju3fbphajkd" path="res://Assets/StatusBar/HpBar_Back.svg" id="3_qhrln"]
+[ext_resource type="Texture2D" uid="uid://bsu4g8ey1u3wc" path="res://Assets/StatusBar/HPBar.svg" id="4_s4fxa"]
+[ext_resource type="Texture2D" uid="uid://cuaxs3kqjqtdr" path="res://Assets/StatusBar/BEBar_Back.svg" id="5_u782r"]
+[ext_resource type="Texture2D" uid="uid://ckiq1cchrek0p" path="res://Assets/StatusBar/BEBar.svg" id="6_x45dl"]
+[ext_resource type="Texture2D" uid="uid://dpi3lwtj7d2u6" path="res://Assets/StatusBar/CPPoint_Back.svg" id="7_bfvu3"]
+
+[node name="StatusBar" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_4sc3m")
+active_color = Color(0.202387, 0.751306, 0.811684, 1)
+inactive_color = Color(0.0196078, 0.156863, 0.145098, 1)
+metadata/_edit_vertical_guides_ = [362.0, 285.0, 17.0]
+metadata/_edit_horizontal_guides_ = [37.0, 86.0]
+
+[node name="BarBack" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 4.0
+offset_right = 382.0
+offset_bottom = 121.0
+texture = ExtResource("2_w4xtb")
+
+[node name="HPBar" type="TextureProgressBar" parent="."]
+texture_filter = 2
+layout_mode = 0
+offset_left = 17.0
+offset_top = 37.0
+offset_right = 361.0
+offset_bottom = 61.0
+value = 50.0
+texture_under = ExtResource("3_qhrln")
+texture_progress = ExtResource("4_s4fxa")
+
+[node name="BEPBar" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 145.0
+offset_top = 86.0
+offset_right = 361.0
+offset_bottom = 109.0
+value = 80.0
+texture_under = ExtResource("5_u782r")
+texture_progress = ExtResource("6_x45dl")
+
+[node name="CharPointBar" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 86.0
+offset_right = 137.0
+offset_bottom = 109.0
+theme_override_constants/separation = 6
+
+[node name="CP1" type="TextureRect" parent="CharPointBar"]
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("7_bfvu3")
+stretch_mode = 2
+
+[node name="CP2" type="TextureRect" parent="CharPointBar"]
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("7_bfvu3")
+stretch_mode = 2
+
+[node name="CP3" type="TextureRect" parent="CharPointBar"]
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("7_bfvu3")
+stretch_mode = 2
+
+[node name="CP4" type="TextureRect" parent="CharPointBar"]
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("7_bfvu3")
+stretch_mode = 2
+
+[node name="CP5" type="TextureRect" parent="CharPointBar"]
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("7_bfvu3")
+stretch_mode = 2
+
+[node name="CP6" type="TextureRect" parent="CharPointBar"]
+layout_mode = 2
+size_flags_horizontal = 8
+texture = ExtResource("7_bfvu3")
+stretch_mode = 2
+
+[node name="HPLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 286.0
+offset_top = 19.0
+offset_right = 304.0
+offset_bottom = 36.0
+theme_override_font_sizes/font_size = 12
+text = "HP"
+
+[node name="BEPLabel" type="Label" parent="."]
+offset_left = 286.0
+offset_top = 68.0
+offset_right = 304.0
+offset_bottom = 85.0
+theme_override_font_sizes/font_size = 12
+text = "BE"
+
+[node name="HPLValue" type="Label" parent="."]
+layout_mode = 0
+offset_left = 306.0
+offset_top = 8.0
+offset_right = 358.0
+offset_bottom = 39.0
+theme_override_font_sizes/font_size = 22
+text = "4150"
+horizontal_alignment = 2
+
+[node name="BEPLabelValue" type="Label" parent="."]
+offset_left = 306.0
+offset_top = 57.0
+offset_right = 358.0
+offset_bottom = 88.0
+theme_override_font_sizes/font_size = 22
+text = "130"
+horizontal_alignment = 2
+
+[node name="CharacterLabel" type="Label" parent="."]
+offset_left = 15.0
+offset_top = 9.0
+offset_right = 67.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 22
+text = "Arlan"
