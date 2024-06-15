@@ -33,7 +33,7 @@ func perform_action():
 	print(current_action)
 	match current_action:
 		ActionType.ATTACK:
-			attack()
+			await attack()
 		ActionType.DEFEND:
 			defend()
 		ActionType.ABILITY:
@@ -46,9 +46,19 @@ func perform_action():
 
 func attack():
 	if target:
+		var tween = get_tree().create_tween()
+		var original_place= self.position
+		tween.tween_property(self,"position", target.position + Vector2(50,0),1).set_ease(Tween.EASE_OUT)
+		await tween.finished
 		var damage = strength #simplified formula
+		print(self.name + " attacks" + target.name + "for" + str(damage) + "damage")
 		target.take_damage(damage, self)
-		print(c_name + "attacks" + target.name + "for" + str(damage) + "damage")
+		tween = get_tree().create_tween()
+		tween.tween_property(self,"position", original_place,1).set_ease(Tween.EASE_OUT)
+		await tween.finished
+		
+		
+		return
 	else:
 		print (name  + " attacked the air")
 

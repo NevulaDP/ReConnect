@@ -36,7 +36,7 @@ func perform_action():
 	print(current_action)
 	match current_action:
 		ActionType.ATTACK:
-			attack()
+			await attack()
 		ActionType.DEFEND:
 			defend()
 		ActionType.ABILITY:
@@ -49,9 +49,17 @@ func perform_action():
 
 func attack():
 	if target:
+		var tween = get_tree().create_tween()
+		var original_place= self.position
+		tween.tween_property(self,"position", target.position - Vector2(50,0),1).set_ease(Tween.EASE_OUT)
+		await tween.finished
 		var damage = strength #simplified formula
-		target.take_damage(damage)
-		print(c_name + "attacks" + target.name + "for" + str(damage) + "damage")
+		target.take_damage(damage, self)
+		print(self.name + " attacks" + target.name + "for" + str(damage) + "damage")
+		tween = get_tree().create_tween()
+		tween.tween_property(self,"position", original_place,1).set_ease(Tween.EASE_OUT)
+		await tween.finished
+
 	else:
 		print (name  + " attacked the air")
 
@@ -94,8 +102,10 @@ func take_damage(amount:int, attacker: Node):
 	else:
 		if counter_conditions.has(CounterCondition.HP_BELOW_25) and health <= (health_max * 0.25):
 			trigger_counter(CounterCondition.HP_BELOW_25,attacker)
+			return
 		elif counter_conditions.has(CounterCondition.ON_ATTACK):
 			trigger_counter(CounterCondition.ON_ATTACK,attacker)
+			return
 	emit_signal("turn_ended")
 	
 func trigger_counter(condition: CounterCondition, attacker: Node):
