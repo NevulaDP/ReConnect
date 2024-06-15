@@ -25,6 +25,7 @@ var is_dead:bool = false
 signal turn_ready
 signal turn_ended
 signal stats_changed
+signal back_to_place
 
 func start_turn():
 	used_ability = false
@@ -46,16 +47,13 @@ func perform_action():
 
 func attack():
 	if target:
-		var tween = get_tree().create_tween()
 		var original_place= self.position
-		tween.tween_property(self,"position", target.position + Vector2(50,0),1).set_ease(Tween.EASE_OUT)
-		await tween.finished
+		await basic_attack_anim_in()
 		var damage = strength #simplified formula
 		print(self.name + " attacks" + target.name + "for" + str(damage) + "damage")
-		target.take_damage(damage, self)
-		tween = get_tree().create_tween()
-		tween.tween_property(self,"position", original_place,1).set_ease(Tween.EASE_OUT)
-		await tween.finished
+		await basic_attack_anim_out(original_place)
+		await target.take_damage(damage, self)
+		
 		
 		
 		return
@@ -100,5 +98,13 @@ func take_damage(amount:int, attacker:Node):
 	if health <=0:
 		die()
 
-	
+func basic_attack_anim_in():
+	var tween = get_tree().create_tween()
+	tween.tween_property(self,"position", target.position - Vector2(50,0),1).set_ease(Tween.EASE_OUT)
+	await tween.finished
+
+func basic_attack_anim_out(original_place: Vector2):
+	var tween = get_tree().create_tween()
+	tween.tween_property(self,"position", original_place,1).set_ease(Tween.EASE_OUT)
+	await tween.finished
 	

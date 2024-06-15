@@ -29,6 +29,8 @@ var is_countering:bool =false
 signal turn_ready
 signal turn_ended
 
+
+
 func start_turn():
 	used_ability = false
 
@@ -49,16 +51,12 @@ func perform_action():
 
 func attack():
 	if target:
-		var tween = get_tree().create_tween()
 		var original_place= self.position
-		tween.tween_property(self,"position", target.position - Vector2(50,0),1).set_ease(Tween.EASE_OUT)
-		await tween.finished
+		await basic_attack_anim_in()
 		var damage = strength #simplified formula
 		target.take_damage(damage, self)
 		print(self.name + " attacks" + target.name + "for" + str(damage) + "damage")
-		tween = get_tree().create_tween()
-		tween.tween_property(self,"position", original_place,1).set_ease(Tween.EASE_OUT)
-		await tween.finished
+		await basic_attack_anim_out(original_place)
 
 	else:
 		print (name  + " attacked the air")
@@ -80,7 +78,9 @@ func end_turn():
 	
 func die():
 	is_dead = true
-	print (name +" has been defeated")
+	var tween = get_tree().create_tween()
+	tween.tween_property(self,"modulate", Color(1,1,1,0),1).set_ease(Tween.EASE_OUT)
+	print (name +" has been defeated###################")
 	emit_signal("stats_changed")
 	
 func set_data(data):
@@ -99,12 +99,13 @@ func take_damage(amount:int, attacker: Node):
 	health-=amount
 	if health <=0:
 		die()
+		return
 	else:
 		if counter_conditions.has(CounterCondition.HP_BELOW_25) and health <= (health_max * 0.25):
-			trigger_counter(CounterCondition.HP_BELOW_25,attacker)
+			await trigger_counter(CounterCondition.HP_BELOW_25,attacker)
 			return
 		elif counter_conditions.has(CounterCondition.ON_ATTACK):
-			trigger_counter(CounterCondition.ON_ATTACK,attacker)
+			await trigger_counter(CounterCondition.ON_ATTACK,attacker)
 			return
 	emit_signal("turn_ended")
 	
@@ -114,22 +115,47 @@ func trigger_counter(condition: CounterCondition, attacker: Node):
 	for action in actions:
 		match action:
 			CounterActionType.LUNATTACK:
-				lunattack(attacker)
+				await lunattack(attacker)
 			CounterActionType.RETALIATE:
-				retaliate(attacker)
+				await retaliate(attacker)
 	is_countering = false
 
 func lunattack(attacker: Node):
 	if attacker:
+		await get_tree().create_timer(2).timeout
 		var damage = strength * 1.75  # Simplified damage calculation for Lunattack
 		attacker.take_damage(damage, self)
 		print(name + " uses Lunattack on " + attacker.name + " for " + str(damage) + " damage.")
 
 func retaliate(attacker: Node):
 	if attacker:
+		var original_place = self.position
+		await get_tree().create_timer(2).timeout	
+		await basic_counter_anim_in(attacker)
 		var damage = strength  # Simplified damage calculation for retaliation
 		attacker.take_damage(damage, self)
 		print(name + " retaliates against " + attacker.name + " for " + str(damage) + " damage.")
+		await basic_counter_anim_out(original_place)
+## animations	
+func basic_attack_anim_in():
+	var tween = get_tree().create_tween()
+	tween.tween_property(self,"position", target.position - Vector2(50,0),1).set_ease(Tween.EASE_OUT)
+	await tween.finished
 
+func basic_attack_anim_out(original_place: Vector2):
+	var tween = get_tree().create_tween()
+	tween.tween_property(self,"position", original_place,1).set_ease(Tween.EASE_OUT)
+	await tween.finished
+
+## counter
+func basic_counter_anim_in(attacker:Node):
+	var tween = get_tree().create_tween()
+	tween.tween_property(self,"position", attacker.position - Vector2(50,0),1).set_ease(Tween.EASE_OUT)
+	await tween.finished
+
+func basic_counter_anim_out(original_place: Vector2):
+	var tween = get_tree().create_tween()
+	tween.tween_property(self,"position", original_place,1).set_ease(Tween.EASE_OUT)
+	await tween.finished
 	
 	

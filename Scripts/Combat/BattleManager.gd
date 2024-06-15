@@ -193,6 +193,7 @@ func _on_action_selected(action_type):
 	action_menu.hide()
 	if living_enemies.size() >0:
 		current_turn.target =living_enemies[randi() % living_enemies.size()]  # Randomly select a living enemy to attack
+		print(current_turn.target.name +"------------")
 		await current_turn.perform_action()
 		#await current_turn.perform_action()
 
