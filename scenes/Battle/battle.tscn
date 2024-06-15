@@ -19,6 +19,8 @@ party_member_scene = ExtResource("2_8j4se")
 enemy_scene = ExtResource("3_gurho")
 status_bar_scene = ExtResource("4_uje7i")
 action_menu_scene = ExtResource("5_6b48i")
+metadata/_edit_horizontal_guides_ = [239.0, 544.0, 853.0]
+metadata/_edit_vertical_guides_ = [1378.0, 547.0]
 
 [node name="StatusBarContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 100)

@@ -21,6 +21,7 @@ var current_turn = null
 var action_menu =null
 var status_bars =[]
 
+### positions ###
 
 ##Test party##
 var party_data = [
@@ -68,9 +69,23 @@ var enemy_data = [
 func _ready():
 	init_party()
 	init_enemies()
+	position_characters()
 	init_ui()
 	start_battle()
+
+func position_characters():
+	var screen_width = get_viewport().size.x
+	var screen_height = get_viewport().size.y
 	
+	var party_start_x = screen_width*0.75
+	var party_spacing_y= screen_height / (party.size() +1)
+	var enemy_start_x = screen_width*0.25
+	var enemy_spacing_y =screen_height / (enemies.size()+1)
+	
+	for i in range(party.size()):
+		party[i].position = Vector2(party_start_x,party_spacing_y*(i+1))
+	for i in range(enemies.size()):
+		enemies[i].position = Vector2(enemy_start_x, enemy_spacing_y*(i+1))
 #Initilaize Party
 func init_party():
 	for data in party_data:
