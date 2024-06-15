@@ -1,5 +1,9 @@
 extends Node
 
+# Declare CounterCondition and CounterActionType enums here
+enum CounterCondition { HP_BELOW_25, ON_ATTACK }
+enum CounterActionType { LUNATTACK, RETALIATE }
+
 @export var party_member_scene : PackedScene
 @export var enemy_scene : PackedScene
 @export var status_bar_scene: PackedScene
@@ -20,14 +24,43 @@ var status_bars =[]
 
 ##Test party##
 var party_data = [
-	{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 40, "level": 10, "strength": 20, "vitality": 15, "magic": 8, "spirit": 12, "luck": 5, "cp_current":1},
-	{"name": "Aislin", "agility": 10, "health": 80, "bep_max": 100, "level": 8, "strength": 10, "vitality": 10, "magic": 20, "spirit": 15, "luck": 7,"cp_current":3},
-	{"name": "Connall", "agility": 12, "health": 120, "bep_max": 20, "level": 12, "strength": 25, "vitality": 20, "magic": 5, "spirit": 10, "luck": 3,"cp_current":1}
+	{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 40, "level": 10, "strength": 20, "vitality": 15, "magic": 8, "spirit": 12, "luck": 5, "cp_current":5},
+	{"name": "Aislin", "agility": 10, "health": 100, "bep_max": 100, "level": 8, "strength": 10, "vitality": 10, "magic": 20, "spirit": 15, "luck": 7,"cp_current":3},
+	{"name": "Connall", "agility": 12, "health": 100, "bep_max": 20, "level": 12, "strength": 25, "vitality": 20, "magic": 5, "spirit": 10, "luck": 3,"cp_current":1}
 ]
 
 var enemy_data = [
-	{"name": "Goblin", "agility": 8, "health": 50, "bep_max": 5, "counter_actions": ["retaliate", "heal"], "level": 5, "strength": 15, "vitality": 10, "magic": 5, "spirit": 8, "luck": 2,"cp_current":3},
-	{"name": "Orc", "agility": 7, "health": 70, "bep_max": 6, "counter_actions": ["retaliate"], "level": 7, "strength": 18, "vitality": 12, "magic": 6, "spirit": 10, "luck": 4,"cp_current":3}
+	 {
+		"name": "Goblin",
+		"agility": 8,
+		"health": 50,
+		"bep_max": 5,
+		"counter_conditions": {
+			CounterCondition.ON_ATTACK: [CounterActionType.RETALIATE],
+			CounterCondition.HP_BELOW_25: [CounterActionType.LUNATTACK]
+		},
+		"level": 5,
+		"strength": 15,
+		"vitality": 10,
+		"magic": 5,
+		"spirit": 8,
+		"luck": 2
+	},
+	{
+		"name": "Orc",
+		"agility": 7,
+		"health": 70,
+		"bep_max": 6,
+		"counter_conditions": {
+			CounterCondition.ON_ATTACK: [CounterActionType.RETALIATE]
+		},
+		"level": 7,
+		"strength": 18,
+		"vitality": 12,
+		"magic": 6,
+		"spirit": 10,
+		"luck": 4
+	}
 ]
 
 # called puon entering the scene tree for the first time
@@ -93,12 +126,18 @@ func determine_turn():
 # Starts Turn
 
 func start_turn(character):
+	if character.is_dead:
+		_on_turn_ended() #  skip defeated characters turn
+		return
 	current_turn = character
-	print(current_turn.name)
+	print("Starting turn for: ", character.name)
 	if character in party:
 		show_action_menu(character)
 	else:
-		character.perform_action()
+		var living_party_members = party.filter(func(c): return not c.is_dead)
+		if living_party_members.size() > 0:
+			character.target = living_party_members[randi() % living_party_members.size()]  # Randomly select a living party member to attack
+			character.perform_action()
 
 #Handles the end of turn
 func _on_turn_ended():
@@ -107,7 +146,8 @@ func _on_turn_ended():
 		current_turn.cp_current +=1
 		if current_turn.cp_current > current_turn.cp_max:
 			current_turn.cp_current = current_turn.cp_max
-			
+		current_turn.emit_signal("stats_changed")	
+	current_turn.used_ability = false
 	# Store current combatant
 	var current_combatant = current_turn
 		
@@ -128,14 +168,18 @@ func _on_turn_ended():
 	
 func show_action_menu(character):
 	action_menu.visible=true
-	print("menu location " + str(action_menu.visible))
+	print("showing menu for: " + str(character.name))
 	
 # Handles selected action
 
 func _on_action_selected(action_type):
 	current_turn.current_action = action_type
+	var living_enemies = enemies.filter(func(c): return not c.is_dead)
 	action_menu.hide()
-	current_turn.perform_action()
+	if living_enemies.size() >0:
+		current_turn.target =living_enemies[randi() % living_enemies.size()]  # Randomly select a living enemy to attack
+		current_turn.perform_action()
+
 	
 
 func _on_stats_changed():

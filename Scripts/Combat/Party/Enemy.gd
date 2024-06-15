@@ -1,5 +1,7 @@
 extends Node
 enum ActionType {ATTACK,DEFEND,ABILITY}
+enum CounterCondition { HP_BELOW_25, ON_ATTACK }
+enum CounterActionType { LUNATTACK, RETALIATE }
 
 @export var c_name:String = ""
 #Base Stats
@@ -14,17 +16,18 @@ enum ActionType {ATTACK,DEFEND,ABILITY}
 @export var bioenergy:int = 10
 @export var spirit:int = 10
 @export var luck:int = 10
+@export var counter_conditions: Dictionary = {}  # Dictionary to store counter conditions and their actions
 
 var cp_current:int =0
 var used_ability: bool = false
 var target = null # target of current action
 var current_action = ActionType.ATTACK  # Default action
 var is_dead:bool = false
+var is_countering:bool =false
 
 
 signal turn_ready
 signal turn_ended
-signal stats_changed
 
 func start_turn():
 	used_ability = false
@@ -47,7 +50,7 @@ func perform_action():
 func attack():
 	if target:
 		var damage = strength #simplified formula
-		target.take_damage(damage, self)
+		target.take_damage(damage)
 		print(c_name + "attacks" + target.name + "for" + str(damage) + "damage")
 	else:
 		print (name  + " attacked the air")
@@ -84,11 +87,39 @@ func set_data(data):
 	#cp_current=2
 	#used_ability=false
 	
-func take_damage(amount:int, attacker:Node):
+func take_damage(amount:int, attacker: Node):
 	health-=amount
-	emit_signal("stats_changed")
 	if health <=0:
 		die()
+	else:
+		if counter_conditions.has(CounterCondition.HP_BELOW_25) and health <= (health_max * 0.25):
+			trigger_counter(CounterCondition.HP_BELOW_25,attacker)
+		elif counter_conditions.has(CounterCondition.ON_ATTACK):
+			trigger_counter(CounterCondition.ON_ATTACK,attacker)
+	emit_signal("turn_ended")
+	
+func trigger_counter(condition: CounterCondition, attacker: Node):
+	is_countering= true
+	var actions = counter_conditions[condition]
+	for action in actions:
+		match action:
+			CounterActionType.LUNATTACK:
+				lunattack(attacker)
+			CounterActionType.RETALIATE:
+				retaliate(attacker)
+	is_countering = false
+
+func lunattack(attacker: Node):
+	if attacker:
+		var damage = strength * 1.75  # Simplified damage calculation for Lunattack
+		attacker.take_damage(damage, self)
+		print(name + " uses Lunattack on " + attacker.name + " for " + str(damage) + " damage.")
+
+func retaliate(attacker: Node):
+	if attacker:
+		var damage = strength  # Simplified damage calculation for retaliation
+		attacker.take_damage(damage, self)
+		print(name + " retaliates against " + attacker.name + " for " + str(damage) + " damage.")
 
 	
 	
