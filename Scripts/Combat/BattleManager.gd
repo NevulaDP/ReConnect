@@ -21,8 +21,8 @@ var status_bars =[]
 ##Test party##
 var party_data =[
 	{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 100,"max_health":100},
-	#{"name": "Aislin", "agility": 10, "health": 80, "bep_max": 100,"max_health":80},
-	#{"name": "Connall", "agility": 12, "health": 180, "bep_max": 100,"max_health":180}
+	{"name": "Aislin", "agility": 10, "health": 80, "bep_max": 100,"max_health":80},
+	{"name": "Connall", "agility": 12, "health": 180, "bep_max": 100,"max_health":180}
 ]
 var enemy_data = [
 	{"name": "Soldier", "agility": 8, "health": 50, "bep_max": 100,"max_health":180},
@@ -70,7 +70,7 @@ func init_ui():
 	action_menu = action_menu_scene.instantiate()
 	add_child(action_menu)
 	action_menu.hide()
-	action_menu.connect("action_select",Callable(self,"_on_action_selected"))
+	action_menu.connect("action_selected",Callable(self,"_on_action_selected"))
 	
 # Battle Starts
 func start_battle():
@@ -128,7 +128,8 @@ func show_action_menu(character):
 	
 # Handles selected action
 
-func _on_aciton_selected(action_type):
+func _on_action_selected(action_type):
+	print(current_turn.name)
 	current_turn.current_action = action_type
 	current_turn.perform_action()
 	action_menu.hide()

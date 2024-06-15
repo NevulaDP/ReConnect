@@ -18,3 +18,13 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/size/mode=3
+window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/linepath2d/plugin.cfg")
+
+[rendering]
+
+anti_aliasing/quality/msaa_2d=1

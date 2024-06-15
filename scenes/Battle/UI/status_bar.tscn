@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://hkh7bwcwl0w5"]
+[gd_scene load_steps=11 format=3 uid="uid://hkh7bwcwl0w5"]
 
 [ext_resource type="Script" path="res://Scripts/Combat/UI/StatusBar.gd" id="1_4sc3m"]
 [ext_resource type="Texture2D" uid="uid://dg6l88ro4fmyh" path="res://Assets/StatusBar/Revised/Back.svg" id="2_mly7n"]
@@ -8,54 +8,67 @@
 [ext_resource type="Texture2D" uid="uid://cqfajl5r4ceij" path="res://Assets/StatusBar/Revised/BE_Full.svg" id="6_nyg0r"]
 [ext_resource type="Texture2D" uid="uid://dpvwl1gykma7y" path="res://Assets/StatusBar/Revised/CP_Full.svg" id="7_6a36d"]
 [ext_resource type="FontFile" uid="uid://5brjxe5kwbas" path="res://Assets/Fonts/LINESEEDSANS_RG.TTF" id="8_438it"]
+[ext_resource type="Texture2D" uid="uid://bb2r27te72koc" path="res://Assets/StatusBar/Revised/Status_Side.svg" id="9_1lt8t"]
+[ext_resource type="Texture2D" uid="uid://bmwsnwq08k0le" path="res://Assets/StatusBar/Revised/Status_Cap.svg" id="10_8jkfl"]
 
 [node name="StatusBar" type="Control"]
 custom_minimum_size = Vector2(370, 100)
 layout_mode = 3
-anchors_preset = 0
-offset_right = 384.0
-offset_bottom = 125.0
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -384.0
+offset_top = -125.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 3
 script = ExtResource("1_4sc3m")
 active_color = Color(0.202387, 0.751306, 0.811684, 1)
 inactive_color = Color(0.0196078, 0.156863, 0.145098, 1)
-metadata/_edit_vertical_guides_ = [358.0, 285.0, 17.0]
-metadata/_edit_horizontal_guides_ = [37.0, 92.0, 108.0]
+metadata/_edit_vertical_guides_ = [358.0, 285.0, 17.0, 1810.0, 1558.0, 1889.0]
+metadata/_edit_horizontal_guides_ = [37.0, 92.0, 108.0, 968.0, 1053.0]
 
 [node name="BarBack" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 4.0
-offset_right = 382.0
-offset_bottom = 121.0
+offset_right = 366.0
+offset_bottom = 107.0
+size_flags_horizontal = 3
 texture = ExtResource("2_mly7n")
 
 [node name="HPBar" type="TextureProgressBar" parent="."]
 texture_filter = 2
 layout_mode = 0
-offset_left = 25.0
-offset_top = 41.0
-offset_right = 357.0
-offset_bottom = 53.0
+offset_left = 22.0
+offset_top = 36.0
+offset_right = 354.0
+offset_bottom = 47.0
+size_flags_horizontal = 3
 value = 50.0
 texture_under = ExtResource("3_6aloq")
 texture_progress = ExtResource("4_576la")
 
 [node name="BEPBar" type="TextureProgressBar" parent="."]
 layout_mode = 0
-offset_left = 194.0
-offset_top = 97.0
-offset_right = 359.0
-offset_bottom = 108.0
+offset_left = 190.0
+offset_top = 86.0
+offset_right = 353.0
+offset_bottom = 97.0
+size_flags_horizontal = 3
 value = 80.0
 texture_under = ExtResource("5_5f48r")
 texture_progress = ExtResource("6_nyg0r")
 
 [node name="CharPointBar" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 17.0
-offset_top = 97.0
-offset_right = 167.0
-offset_bottom = 110.0
+offset_left = 23.0
+offset_top = 86.0
+offset_right = 177.0
+offset_bottom = 97.0
+size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
 [node name="CP1" type="TextureRect" parent="CharPointBar"]
@@ -96,52 +109,70 @@ stretch_mode = 2
 
 [node name="HPLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 286.0
-offset_top = 28.0
-offset_right = 304.0
-offset_bottom = 45.0
+offset_left = 274.0
+offset_top = 20.0
+offset_right = 294.0
+offset_bottom = 37.0
+size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("8_438it")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 14
 text = "HP"
 
 [node name="BEPLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 286.0
-offset_top = 82.0
-offset_right = 304.0
-offset_bottom = 99.0
+offset_left = 274.0
+offset_top = 68.0
+offset_right = 292.0
+offset_bottom = 85.0
+size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("8_438it")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 14
 text = "BE"
 
 [node name="HPLValue" type="Label" parent="."]
 layout_mode = 0
-offset_left = 306.0
-offset_top = 19.0
-offset_right = 358.0
-offset_bottom = 50.0
+offset_left = 297.0
+offset_top = 11.0
+offset_right = 353.0
+offset_bottom = 42.0
+size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("8_438it")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 24
 text = "4150"
 horizontal_alignment = 2
 
 [node name="BEPLabelValue" type="Label" parent="."]
 layout_mode = 0
-offset_left = 306.0
-offset_top = 75.0
-offset_right = 358.0
-offset_bottom = 106.0
+offset_left = 301.0
+offset_top = 61.0
+offset_right = 353.0
+offset_bottom = 92.0
+size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("8_438it")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 24
 text = "130"
 horizontal_alignment = 2
 
 [node name="CharacterLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 25.0
-offset_top = 19.0
-offset_right = 82.0
-offset_bottom = 50.0
+offset_top = 11.0
+offset_right = 94.0
+offset_bottom = 35.0
+size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("8_438it")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 24
 text = "Arlan"
+
+[node name="StatusSide" type="Sprite2D" parent="."]
+position = Vector2(355, 56)
+texture = ExtResource("9_1lt8t")
+
+[node name="StatusCapHPEnd" type="Sprite2D" parent="."]
+position = Vector2(352, 41)
+texture = ExtResource("10_8jkfl")
+
+[node name="StatusCapHPEnd2" type="Sprite2D" parent="."]
+position = Vector2(23, 41)
+texture = ExtResource("10_8jkfl")
+flip_h = true
