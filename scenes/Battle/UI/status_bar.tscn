@@ -172,7 +172,25 @@ texture = ExtResource("9_1lt8t")
 position = Vector2(352, 41)
 texture = ExtResource("10_8jkfl")
 
-[node name="StatusCapHPEnd2" type="Sprite2D" parent="."]
+[node name="StatusCapHPStart" type="Sprite2D" parent="."]
 position = Vector2(23, 41)
 texture = ExtResource("10_8jkfl")
 flip_h = true
+
+[node name="StatusCapBEEnd" type="Sprite2D" parent="."]
+position = Vector2(352, 91)
+texture = ExtResource("10_8jkfl")
+
+[node name="StatusCapBEStart" type="Sprite2D" parent="."]
+position = Vector2(191, 91)
+texture = ExtResource("10_8jkfl")
+flip_h = true
+
+[node name="StatusCapCpStart" type="Sprite2D" parent="."]
+position = Vector2(24, 91)
+texture = ExtResource("10_8jkfl")
+flip_h = true
+
+[node name="StatusCapCPEnd" type="Sprite2D" parent="."]
+position = Vector2(172, 91)
+texture = ExtResource("10_8jkfl")

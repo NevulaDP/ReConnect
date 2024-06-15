@@ -19,14 +19,15 @@ var status_bars =[]
 
 
 ##Test party##
-var party_data =[
-	{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 100,"max_health":100},
-	{"name": "Aislin", "agility": 10, "health": 80, "bep_max": 100,"max_health":80},
-	{"name": "Connall", "agility": 12, "health": 180, "bep_max": 100,"max_health":180}
+var party_data = [
+	{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 40, "level": 10, "strength": 20, "vitality": 15, "magic": 8, "spirit": 12, "luck": 5, "cp_current":1},
+	{"name": "Aislin", "agility": 10, "health": 80, "bep_max": 100, "level": 8, "strength": 10, "vitality": 10, "magic": 20, "spirit": 15, "luck": 7,"cp_current":3},
+	{"name": "Connall", "agility": 12, "health": 120, "bep_max": 20, "level": 12, "strength": 25, "vitality": 20, "magic": 5, "spirit": 10, "luck": 3,"cp_current":1}
 ]
+
 var enemy_data = [
-	{"name": "Soldier", "agility": 8, "health": 50, "bep_max": 100,"max_health":180},
-	{"name": "Scientist", "agility": 7, "health": 70, "bep_max": 100,"max_health":180}		
+	{"name": "Goblin", "agility": 8, "health": 50, "bep_max": 5, "counter_actions": ["retaliate", "heal"], "level": 5, "strength": 15, "vitality": 10, "magic": 5, "spirit": 8, "luck": 2,"cp_current":3},
+	{"name": "Orc", "agility": 7, "health": 70, "bep_max": 6, "counter_actions": ["retaliate"], "level": 7, "strength": 18, "vitality": 12, "magic": 6, "spirit": 10, "luck": 4,"cp_current":3}
 ]
 
 # called puon entering the scene tree for the first time
@@ -43,6 +44,7 @@ func init_party():
 		var member = party_member_scene.instantiate()
 		member.set_data(data)
 		member.connect("turn_ended", Callable(self, "_on_turn_ended"))
+		member.connect("stats_changed", Callable(self, "_on_stats_changed"))
 		add_child(member)
 		party.append(member)
 		
@@ -92,6 +94,7 @@ func determine_turn():
 
 func start_turn(character):
 	current_turn = character
+	print(current_turn.name)
 	if character in party:
 		show_action_menu(character)
 	else:
@@ -124,16 +127,21 @@ func _on_turn_ended():
 	start_turn(all_combatants[current_turn_index])
 	
 func show_action_menu(character):
-	action_menu.show()
+	action_menu.visible=true
+	print("menu location " + str(action_menu.visible))
 	
 # Handles selected action
 
 func _on_action_selected(action_type):
-	print(current_turn.name)
 	current_turn.current_action = action_type
-	current_turn.perform_action()
 	action_menu.hide()
-			
+	current_turn.perform_action()
+	
+
+func _on_stats_changed():
+	# This function will be called when any character's stats change
+	for status_bar in status_bars:
+		status_bar.update_status()  # Ensure all status bars are updated
 	
 	
 	
