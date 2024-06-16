@@ -8,6 +8,8 @@ enum CounterActionType { LUNATTACK, RETALIATE }
 @export var enemy_scene : PackedScene
 @export var status_bar_scene: PackedScene
 @export var action_menu_scene: PackedScene
+@export var glove_indicator_scene: PackedScene
+@export var target_selector_resource: Resource
 
 # Load the CustomSorter script
 #const CustomSorter = preload("res://Scripts/Combat/CustomSorter.gd")
@@ -20,6 +22,7 @@ var current_turn_index =0
 var current_turn = null
 var action_menu =null
 var status_bars =[]
+var target_selector = null
 
 ### positions ###
 
@@ -71,6 +74,7 @@ func _ready():
 	init_enemies()
 	position_characters()
 	init_ui()
+	init_target_selector()
 	start_battle()
 
 func position_characters():
@@ -121,7 +125,13 @@ func init_ui():
 	add_child(action_menu)
 	action_menu.hide()
 	action_menu.connect("action_selected",Callable(self,"_on_action_selected"))
+
+func init_target_selector():
+	target_selector = target_selector_resource.new()
+	target_selector.init(self, glove_indicator_scene)
+	target_selector.connect("target_selected", Callable(self, "_on_target_selected"))
 	
+		
 # Battle Starts
 func start_battle():
 	active_battle=true
@@ -192,10 +202,16 @@ func _on_action_selected(action_type):
 	var living_enemies = enemies.filter(func(c): return not c.is_dead)
 	action_menu.hide()
 	if living_enemies.size() >0:
-		current_turn.target =living_enemies[randi() % living_enemies.size()]  # Randomly select a living enemy to attack
-		print(current_turn.target.name +"------------")
-		await current_turn.perform_action()
+		target_selector.start_target_selection(living_enemies)
+		#current_turn.target =living_enemies[randi() % living_enemies.size()]  # Randomly select a living enemy to attack
+		#print(current_turn.target.name +"------------")
 		#await current_turn.perform_action()
+		#await current_turn.perform_action()
+
+# Handles target selected
+func _on_target_selected(target):
+	current_turn.target = target
+	await current_turn.perform_action()
 
 	
 
@@ -204,5 +220,7 @@ func _on_stats_changed():
 	for status_bar in status_bars:
 		status_bar.update_status()  # Ensure all status bars are updated
 	
-	
+func _unhandled_input(event):
+	if target_selector.is_selecting_target:
+		target_selector.handle_input(event)
 	

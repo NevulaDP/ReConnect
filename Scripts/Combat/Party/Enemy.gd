@@ -122,10 +122,13 @@ func trigger_counter(condition: CounterCondition, attacker: Node):
 
 func lunattack(attacker: Node):
 	if attacker:
+		var original_place = self.position
 		await get_tree().create_timer(2).timeout
+		await basic_counter_anim_in(attacker)
 		var damage = strength * 1.75  # Simplified damage calculation for Lunattack
 		attacker.take_damage(damage, self)
 		print(name + " uses Lunattack on " + attacker.name + " for " + str(damage) + " damage.")
+		await basic_counter_anim_out(original_place)
 
 func retaliate(attacker: Node):
 	if attacker:
