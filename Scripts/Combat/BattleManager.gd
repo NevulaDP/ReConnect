@@ -121,10 +121,11 @@ func init_ui():
 		#status_bar.character = member
 		#status_bars.append(status_bar)
 	
-	action_menu = action_menu_scene.instantiate()
-	add_child(action_menu)
-	action_menu.hide()
-	action_menu.connect("action_selected",Callable(self,"_on_action_selected"))
+	#action_menu = action_menu_scene.instantiate()
+	#add_child(action_menu)
+	#action_menu.hide()
+	#action_menu.connect("action_selected",Callable(self,"_on_action_selected"))
+	pass
 
 func init_target_selector():
 	target_selector = target_selector_resource.new()
@@ -192,18 +193,23 @@ func _on_turn_ended():
 	start_turn(all_combatants[current_turn_index])
 	
 func show_action_menu(character):
-	action_menu.visible=true
+	#action_menu.visible=true
+	action_menu = action_menu_scene.instantiate()
+	add_child(action_menu)
+	action_menu.init(current_turn)
+	action_menu.connect("action_selected",Callable(self,"_on_action_selected"))
 	print("showing menu for: " + str(character.name))
 	
 # Handles selected action
 
 func _on_action_selected(action_type):
+	action_menu.queue_free()
 	current_turn.current_action = action_type
 	var living_enemies = enemies.filter(func(c): return not c.is_dead)
 	action_menu.hide()
 	if living_enemies.size() >0:
 		target_selector.start_target_selection(living_enemies)
-		#current_turn.target =living_enemies[randi() % living_enemies.size()]  # Randomly select a living enemy to attack
+		#current_turn.target =living_enemies[randi() % living_enemies.size()] 
 		#print(current_turn.target.name +"------------")
 		#await current_turn.perform_action()
 		#await current_turn.perform_action()

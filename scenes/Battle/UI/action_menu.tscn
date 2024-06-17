@@ -9,23 +9,22 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_tbl3p")
 
-[node name="AttackButton" type="Button" parent="."]
+[node name="MenuContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_right = 76.0
-offset_bottom = 19.0
+offset_right = 81.0
+offset_bottom = 105.0
+
+[node name="AttackButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
 text = "Attack
 "
 
-[node name="DefendButton" type="Button" parent="."]
-offset_top = 34.0
-offset_right = 76.0
-offset_bottom = 65.0
+[node name="DefendButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
 text = "Defend
 "
 
-[node name="AbilityButton" type="Button" parent="."]
-offset_top = 68.0
-offset_right = 76.0
-offset_bottom = 99.0
+[node name="AbilityButton" type="Button" parent="MenuContainer"]
+layout_mode = 2
 text = "Ability
 "
