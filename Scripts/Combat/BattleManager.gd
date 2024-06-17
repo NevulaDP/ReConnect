@@ -26,6 +26,7 @@ var action_menu =null
 var status_bars =[]
 var target_selector = null
 var statusbar_index
+var last_action
 
 ### positions ###
 
@@ -162,10 +163,6 @@ func start_turn(character):
 	current_turn = character
 	print("Starting turn for: ", character.name)
 	if character in party:
-		statusbar_index = party.find(current_turn)
-		for statusbar in status_bars:
-			status_bars[statusbar_index].my_turn(current_turn)
-			status_bars[statusbar_index]._scale_up()
 		show_action_menu(character)
 	else:
 		var living_party_members = party.filter(func(c): return not c.is_dead)
@@ -201,7 +198,12 @@ func _on_turn_ended():
 	start_turn(all_combatants[current_turn_index])
 	
 func show_action_menu(character):
-	#action_menu.visible=true
+	statusbar_index = party.find(current_turn)
+	#Statusbar highlight
+	for statusbar in status_bars:
+		status_bars[statusbar_index].my_turn(current_turn)
+		status_bars[statusbar_index]._scale_up()
+	#action menu
 	action_menu = action_menu_scene.instantiate()
 	add_child(action_menu)
 	action_menu.init(current_turn)
@@ -211,12 +213,13 @@ func show_action_menu(character):
 # Handles selected action
 
 func _on_action_selected(action_type):
-	action_menu.queue_free()
+	
 	statusbar_index = party.find(current_turn)
 	status_bars[statusbar_index]._scale_down()
 	current_turn.current_action = action_type
+	last_action=action_type
 	var living_enemies = enemies.filter(func(c): return not c.is_dead)
-	action_menu.hide()
+	action_menu.hide_menu()
 	if living_enemies.size() >0:
 		target_selector.start_target_selection(living_enemies)
 		#current_turn.target =living_enemies[randi() % living_enemies.size()] 
@@ -227,6 +230,7 @@ func _on_action_selected(action_type):
 # Handles target selected
 func _on_target_selected(target):
 	current_turn.target = target
+	action_menu.queue_free()
 	status_bars[statusbar_index].my_turn(null)
 	await current_turn.perform_action()
 
@@ -242,5 +246,6 @@ func _unhandled_input(event):
 		target_selector.handle_input(event)
 
 func _on_back_to_menu():
-	show_action_menu(all_combatants[current_turn_index])
+	action_menu.show_menu()
+	#show_action_menu(all_combatants[current_turn_index])
 	
