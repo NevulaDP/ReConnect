@@ -32,9 +32,12 @@ var last_action
 
 ##Test party##
 var party_data = [
-	{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 40, "level": 10, "strength": 20, "vitality": 15, "magic": 8, "spirit": 12, "luck": 5, "cp_current":5},
-	{"name": "Aislin", "agility": 10, "health": 100, "bep_max": 100, "level": 8, "strength": 10, "vitality": 10, "magic": 20, "spirit": 15, "luck": 7,"cp_current":3},
-	{"name": "Connall", "agility": 12, "health": 100, "bep_max": 20, "level": 12, "strength": 25, "vitality": 20, "magic": 5, "spirit": 10, "luck": 3,"cp_current":1}
+	{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 40, "level": 10, "strength": 20,
+	 "vitality": 15, "magic": 8, "spirit": 12, "luck": 5, "cp_current":5,"abilities": ["Fireball", "Heal"]},
+	{"name": "Aislin", "agility": 10, "health": 100, "bep_max": 100, "level": 8, "strength": 10,
+	 "vitality": 10, "magic": 20, "spirit": 15, "luck": 7,"cp_current":3,"abilities": ["Ice Spike", "Barrier"]},
+	{"name": "Connall", "agility": 12, "health": 100, "bep_max": 20, "level": 12, "strength": 25,
+	 "vitality": 20, "magic": 5, "spirit": 10, "luck": 3,"cp_current":1, "abilities": ["Slash", "Power Strike"]}
 ]
 
 var enemy_data = [
@@ -208,6 +211,7 @@ func show_action_menu(character):
 	add_child(action_menu)
 	action_menu.init(current_turn)
 	action_menu.connect("action_selected",Callable(self,"_on_action_selected"))
+	action_menu.connect("abilities_selected", Callable(self, "_on_abilities_selected"))
 	print("showing menu for: " + str(character.name))
 	
 # Handles selected action
@@ -248,4 +252,5 @@ func _unhandled_input(event):
 func _on_back_to_menu():
 	action_menu.show_menu()
 	#show_action_menu(all_combatants[current_turn_index])
+	status_bars[statusbar_index]._scale_up()
 	
