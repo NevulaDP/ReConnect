@@ -11,6 +11,8 @@ enum CounterActionType { LUNATTACK, RETALIATE }
 @export var glove_indicator_scene: PackedScene
 @export var target_selector_resource: Resource
 
+signal active_status_bar_changed(active_bar)
+
 # Load the CustomSorter script
 #const CustomSorter = preload("res://Scripts/Combat/CustomSorter.gd")
 
@@ -23,6 +25,7 @@ var current_turn = null
 var action_menu =null
 var status_bars =[]
 var target_selector = null
+var statusbar_index
 
 ### positions ###
 
@@ -131,6 +134,7 @@ func init_target_selector():
 	target_selector = target_selector_resource.new()
 	target_selector.init(self, glove_indicator_scene)
 	target_selector.connect("target_selected", Callable(self, "_on_target_selected"))
+	target_selector.connect("back_to_menu",Callable(self,"_on_back_to_menu"))
 	
 		
 # Battle Starts
@@ -158,6 +162,10 @@ func start_turn(character):
 	current_turn = character
 	print("Starting turn for: ", character.name)
 	if character in party:
+		statusbar_index = party.find(current_turn)
+		for statusbar in status_bars:
+			status_bars[statusbar_index].my_turn(current_turn)
+			status_bars[statusbar_index]._scale_up()
 		show_action_menu(character)
 	else:
 		var living_party_members = party.filter(func(c): return not c.is_dead)
@@ -204,6 +212,8 @@ func show_action_menu(character):
 
 func _on_action_selected(action_type):
 	action_menu.queue_free()
+	statusbar_index = party.find(current_turn)
+	status_bars[statusbar_index]._scale_down()
 	current_turn.current_action = action_type
 	var living_enemies = enemies.filter(func(c): return not c.is_dead)
 	action_menu.hide()
@@ -217,6 +227,7 @@ func _on_action_selected(action_type):
 # Handles target selected
 func _on_target_selected(target):
 	current_turn.target = target
+	status_bars[statusbar_index].my_turn(null)
 	await current_turn.perform_action()
 
 	
@@ -229,4 +240,7 @@ func _on_stats_changed():
 func _unhandled_input(event):
 	if target_selector.is_selecting_target:
 		target_selector.handle_input(event)
+
+func _on_back_to_menu():
+	show_action_menu(all_combatants[current_turn_index])
 	

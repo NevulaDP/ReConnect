@@ -8,6 +8,7 @@ var parent_node = null
 var glove_indicator_scene = null
 
 signal target_selected(target)
+signal back_to_menu()
 
 func init(parent_node, glove_indicator_scene):
 	self.parent_node = parent_node
@@ -40,3 +41,7 @@ func handle_input(event):
 			is_selecting_target = false
 			glove_indicator.hide()
 			emit_signal("target_selected", enemies[current_target_index])
+		elif event.is_action_pressed("ui_abort"):
+			is_selecting_target = false
+			glove_indicator.hide()
+			emit_signal("back_to_menu")

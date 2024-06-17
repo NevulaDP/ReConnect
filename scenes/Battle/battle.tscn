@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://pei32odsmsh2"]
+[gd_scene load_steps=8 format=3 uid="uid://pei32odsmsh2"]
 
 [ext_resource type="Script" path="res://Scripts/Combat/BattleManager.gd" id="1_hv4et"]
 [ext_resource type="PackedScene" uid="uid://lybnga3a1dup" path="res://scenes/Battle/Combatants/party_member.tscn" id="2_8j4se"]
@@ -8,17 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://btnq1i4cw2g26" path="res://scenes/Battle/UI/enemy_indicator.tscn" id="6_aydbh"]
 [ext_resource type="Script" path="res://Resources/Combat/TargetSelector.gd" id="7_qnfld"]
 
-[sub_resource type="Environment" id="Environment_eo3vu"]
-background_mode = 3
-tonemap_mode = 3
-glow_enabled = true
-glow_levels/1 = 1.66
-glow_levels/2 = 0.9
-glow_levels/3 = 3.94
-glow_blend_mode = 0
-glow_hdr_threshold = 1.47
-glow_hdr_scale = 3.48
-
 [node name="Battle" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -27,6 +16,7 @@ anchor_bottom = 1.0
 offset_bottom = 5.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_hv4et")
 party_member_scene = ExtResource("2_8j4se")
 enemy_scene = ExtResource("3_gurho")
@@ -51,9 +41,7 @@ offset_right = -50.0
 offset_bottom = -50.0
 grow_horizontal = 0
 grow_vertical = 0
+pivot_offset = Vector2(400, 50)
 size_flags_horizontal = 3
 theme_override_constants/separation = 7
 alignment = 2
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_eo3vu")

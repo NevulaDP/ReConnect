@@ -7,6 +7,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 script = ExtResource("1_tbl3p")
 
 [node name="MenuContainer" type="VBoxContainer" parent="."]
@@ -16,15 +17,18 @@ offset_bottom = 105.0
 
 [node name="AttackButton" type="Button" parent="MenuContainer"]
 layout_mode = 2
+mouse_filter = 2
 text = "Attack
 "
 
 [node name="DefendButton" type="Button" parent="MenuContainer"]
 layout_mode = 2
+mouse_filter = 2
 text = "Defend
 "
 
 [node name="AbilityButton" type="Button" parent="MenuContainer"]
 layout_mode = 2
+mouse_filter = 2
 text = "Ability
 "

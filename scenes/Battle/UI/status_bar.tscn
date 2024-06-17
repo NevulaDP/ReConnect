@@ -14,7 +14,6 @@
 [node name="StatusBar" type="Control"]
 custom_minimum_size = Vector2(370, 100)
 layout_mode = 3
-anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -23,6 +22,7 @@ offset_left = -384.0
 offset_top = -125.0
 grow_horizontal = 0
 grow_vertical = 0
+pivot_offset = Vector2(190, 50)
 size_flags_horizontal = 3
 script = ExtResource("1_4sc3m")
 metadata/_edit_vertical_guides_ = [358.0, 285.0, 17.0, 1810.0, 1558.0, 1889.0]
