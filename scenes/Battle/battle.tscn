@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://pei32odsmsh2"]
+[gd_scene load_steps=9 format=3 uid="uid://pei32odsmsh2"]
 
 [ext_resource type="Script" path="res://Scripts/Combat/BattleManager.gd" id="1_hv4et"]
 [ext_resource type="PackedScene" uid="uid://lybnga3a1dup" path="res://scenes/Battle/Combatants/party_member.tscn" id="2_8j4se"]
 [ext_resource type="PackedScene" uid="uid://duwlnf3dxnuh6" path="res://scenes/Battle/Combatants/enemy.tscn" id="3_gurho"]
 [ext_resource type="PackedScene" uid="uid://hkh7bwcwl0w5" path="res://scenes/Battle/UI/status_bar.tscn" id="4_uje7i"]
 [ext_resource type="PackedScene" uid="uid://cgmui154ri40k" path="res://scenes/Battle/UI/action_menu.tscn" id="5_6b48i"]
+[ext_resource type="PackedScene" uid="uid://b17841afohvrt" path="res://scenes/Battle/UI/abilities_menu.tscn" id="6_7vjid"]
 [ext_resource type="PackedScene" uid="uid://btnq1i4cw2g26" path="res://scenes/Battle/UI/enemy_indicator.tscn" id="6_aydbh"]
 [ext_resource type="Script" path="res://Resources/Combat/TargetSelector.gd" id="7_qnfld"]
 
@@ -22,6 +23,7 @@ party_member_scene = ExtResource("2_8j4se")
 enemy_scene = ExtResource("3_gurho")
 status_bar_scene = ExtResource("4_uje7i")
 action_menu_scene = ExtResource("5_6b48i")
+abilities_menu_scene = ExtResource("6_7vjid")
 glove_indicator_scene = ExtResource("6_aydbh")
 target_selector_resource = ExtResource("7_qnfld")
 metadata/_edit_horizontal_guides_ = [239.0, 544.0, 853.0]

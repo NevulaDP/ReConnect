@@ -3,6 +3,7 @@ extends Control
 enum ActionType {ATTACK, DEFEND, ABILITY}
 
 signal action_selected(action_type:int)
+signal abilities_selected
 
 var last_focused_button_path: NodePath = NodePath("")
 
@@ -28,7 +29,7 @@ func _on_DefendButton_pressed():
 	emit_signal("action_selected", ActionType.DEFEND)
 
 func _on_AbilityButton_pressed():
-	emit_signal("action_selected", ActionType.ABILITY)
+	emit_signal("abilities_selected")
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass

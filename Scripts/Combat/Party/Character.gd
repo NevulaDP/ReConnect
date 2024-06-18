@@ -14,6 +14,7 @@ enum ActionType {ATTACK,DEFEND,ABILITY}
 @export var bioenergy:int = 10
 @export var spirit:int = 10
 @export var luck:int = 10
+@export var abilities: Array = []
 
 var cp_current:int =0
 var used_ability: bool = false

@@ -8,6 +8,7 @@ enum CounterActionType { LUNATTACK, RETALIATE }
 @export var enemy_scene : PackedScene
 @export var status_bar_scene: PackedScene
 @export var action_menu_scene: PackedScene
+@export var abilities_menu_scene : PackedScene
 @export var glove_indicator_scene: PackedScene
 @export var target_selector_resource: Resource
 
@@ -83,6 +84,7 @@ func _ready():
 	init_ui()
 	init_target_selector()
 	start_battle()
+	
 
 func position_characters():
 	var screen_width = get_viewport().size.x
@@ -230,6 +232,21 @@ func _on_action_selected(action_type):
 		#print(current_turn.target.name +"------------")
 		#await current_turn.perform_action()
 		#await current_turn.perform_action()
+
+func _on_abilities_selected():
+	action_menu.hide_menu()
+	var abilities_menu = abilities_menu_scene.instantiate()
+	add_child(abilities_menu)
+	abilities_menu.init(current_turn)
+	abilities_menu.set_abilities(current_turn.abilities)
+	abilities_menu.populate_abilities_menu()
+	abilities_menu.connect("ability_selected",Callable(self,"_on_ability_selected"))
+
+func _on_ability_selected(ability):
+	print("Ability selected: ", ability)
+	current_turn.current_action = ability
+	#callfor target selector
+	_on_turn_ended()
 
 # Handles target selected
 func _on_target_selected(target):
