@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://pei32odsmsh2"]
+[gd_scene load_steps=10 format=3 uid="uid://pei32odsmsh2"]
 
 [ext_resource type="Script" path="res://Scripts/Combat/BattleManager.gd" id="1_hv4et"]
 [ext_resource type="PackedScene" uid="uid://lybnga3a1dup" path="res://scenes/Battle/Combatants/party_member.tscn" id="2_8j4se"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b17841afohvrt" path="res://scenes/Battle/UI/abilities_menu.tscn" id="6_7vjid"]
 [ext_resource type="PackedScene" uid="uid://btnq1i4cw2g26" path="res://scenes/Battle/UI/enemy_indicator.tscn" id="6_aydbh"]
 [ext_resource type="Script" path="res://Resources/Combat/TargetSelector.gd" id="7_qnfld"]
+[ext_resource type="Texture2D" uid="uid://c1nakl5pmtuw3" path="res://Assets/Backgrounds/Default_Type_of_Image_Pixel_art_Subject_Description_A_16bit_er_1.jpg" id="9_pa0hy"]
 
 [node name="Battle" type="Control"]
 layout_mode = 3
@@ -28,6 +29,11 @@ glove_indicator_scene = ExtResource("6_aydbh")
 target_selector_resource = ExtResource("7_qnfld")
 metadata/_edit_horizontal_guides_ = [239.0, 544.0, 853.0]
 metadata/_edit_vertical_guides_ = [1378.0, 547.0]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(1148, 526)
+texture = ExtResource("9_pa0hy")
 
 [node name="StatusBarContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 100)

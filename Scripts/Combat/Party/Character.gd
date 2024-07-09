@@ -1,4 +1,6 @@
 extends Node
+
+class_name Character
 enum ActionType {ATTACK,DEFEND,ABILITY}
 
 @export var c_name:String = ""
@@ -15,21 +17,32 @@ enum ActionType {ATTACK,DEFEND,ABILITY}
 @export var spirit:int = 10
 @export var luck:int = 10
 @export var abilities: Array = []
+var xp=0 # needs to be loaded in for each character
+var lvl=1 # needs to be loaded in for each character
+var max_xp =60 # needs to be loaded in for each character
 
 var cp_current:int =0
 var used_ability: bool = false
 var target = null # target of current action
 var current_action = ActionType.ATTACK  # Default action
 var is_dead:bool = false
-
+#example for modifier dictionary, should be loaded from a resource or json
+var mod = {"Arlan":[20,30,30,40,50],"Aislin":[18,28,28,38,48],"Connall":[23,33,33,43,53]
+	
+	}
 
 signal turn_ready
 signal turn_ended
 signal stats_changed
 signal back_to_place
 
+func _ready():
+	await StatsProgressManager.increase_xp(self, 600)
+	if StatsProgressManager.check_progression(self):
+		await StatsProgressManager.level_up(self,mod)
 func start_turn():
 	used_ability = false
+	
 
 func perform_action():
 	print(current_action)
@@ -73,6 +86,7 @@ func is_defeated():
 	return health<=0
 	
 func end_turn():
+	
 	emit_signal("stats_changed")
 	emit_signal("turn_ended")
 	

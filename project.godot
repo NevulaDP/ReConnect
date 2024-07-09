@@ -14,6 +14,10 @@ config/name="ReCo_Combat"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+StatProgressManager="*res://Scripts/Combat/stat_progress_manager.gd"
+
 [display]
 
 window/size/viewport_width=1920

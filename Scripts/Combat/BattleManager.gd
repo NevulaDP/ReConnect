@@ -245,8 +245,12 @@ func _on_abilities_selected():
 func _on_ability_selected(ability):
 	print("Ability selected: ", ability)
 	current_turn.current_action = ability
+	var targets = (enemies+party).filter(func(c): return not c.is_dead)
+	action_menu.hide_menu()
+	if targets.size() >0:
+		target_selector.start_target_selection(targets)
 	#callfor target selector
-	_on_turn_ended()
+	#_on_turn_ended()
 
 # Handles target selected
 func _on_target_selected(target):

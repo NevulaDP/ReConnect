@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://brpy66tflbny0"]
+
+[ext_resource type="PackedScene" uid="uid://lybnga3a1dup" path="res://scenes/Battle/Combatants/party_member.tscn" id="1_pi4n6"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="PartyMember" parent="." instance=ExtResource("1_pi4n6")]
+c_name = "Arlan"

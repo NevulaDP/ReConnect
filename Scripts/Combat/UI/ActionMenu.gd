@@ -30,6 +30,7 @@ func _on_DefendButton_pressed():
 
 func _on_AbilityButton_pressed():
 	emit_signal("abilities_selected")
+	#emit_signal("action_selected",ActionType.ABILITY)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass

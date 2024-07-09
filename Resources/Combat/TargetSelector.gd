@@ -32,10 +32,10 @@ func update_glove_indicator():
 func handle_input(event):
 	if is_selecting_target:
 		if event.is_action_pressed("ui_up"):
-			current_target_index = (current_target_index + 1) % enemies.size()
+			current_target_index = (current_target_index - 1) % enemies.size()
 			update_glove_indicator()
 		elif event.is_action_pressed("ui_down"):
-			current_target_index = (current_target_index - 1 + enemies.size()) % enemies.size()
+			current_target_index = (current_target_index + 1 + enemies.size()) % enemies.size()
 			update_glove_indicator()
 		elif event.is_action_pressed("ui_accept"):
 			is_selecting_target = false
