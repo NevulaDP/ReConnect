@@ -1,4 +1,4 @@
 extends Resource
-class_name PartyResource
+class_name PartyData
 
-@export var characters:Array = []
+@export var party_data:Array = []

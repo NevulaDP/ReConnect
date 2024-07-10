@@ -28,7 +28,7 @@ var current_action = ActionType.ATTACK  # Default action
 var is_dead:bool = false
 #example for modifier dictionary, should be loaded from a resource or json
 var mod = {"Arlan":[20,30,30,40,50],"Aislin":[18,28,28,38,48],"Connall":[23,33,33,43,53]}
-var party_data_save_path = "user://party_data.json"
+var party_data_save_path = "user://party_data.dat"
 
 signal turn_ready
 signal turn_ended
@@ -36,8 +36,40 @@ signal stats_changed
 signal back_to_place
 		
 func save_character():
-	var character_data = {}
-	return character_data
+	var character_data = {
+		"name": c_name, 
+		"agility": agility, 
+		"health": health, 
+		"be_atk_max": be_atk_max, 
+		"level": level, 
+		"strength": strength,
+	 	"vitality": vitality, 
+		"luck": luck, 
+		"charge": charge,
+		"abilities": abilities
+		}
+	var party_data = load_party_data()
+	if party_data:
+		for i in range(party_data.len):
+			if party_data[i].get("name") == c_name:
+				party_data[i] = character_data
+				break
+	save_party_data(party_data)
+	
+func load_party_data():
+	if not FileAccess.file_exists(party_data_save_path):
+		print("LOAD PARTY EXCEPTION")
+		return
+	var party_data:PartyData = load(party_data_save_path)
+	return party_data
+	
+func save_party_data(party_data):
+	var party_data_save = PartyData.new()
+	party_data_save.party_data = party_data
+	var error := ResourceSaver.save(party_data_save, party_data_save_path)
+	if error:
+		print("SAVE PARTY EXCEPTION")
+		return
 	
 func start_turn():
 	used_ability = false

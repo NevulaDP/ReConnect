@@ -14,7 +14,7 @@ enum CounterActionType { LUNATTACK, RETALIATE }
 
 signal active_status_bar_changed(active_bar)
 
-var party= []
+var party = []
 var enemies = []
 var all_combatants = []
 var active_battle = false
@@ -25,19 +25,11 @@ var status_bars = []
 var target_selector = null
 var statusbar_index
 var last_action
-var party_data_save_path = "user://party_data.json"
+var party_data_save_path = "user://party_data.dat"
 
 ### positions ###
 
 ##Test party##
-#var party_data = [
-	#{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 40, "level": 10, "strength": 20,
-	 #"vitality": 15, "magic": 8, "spirit": 12, "luck": 5, "cp_current":5,"abilities": ["Fireball", "Heal"]},
-	#{"name": "Aislin", "agility": 10, "health": 100, "bep_max": 100, "level": 8, "strength": 10,
-	 #"vitality": 10, "magic": 20, "spirit": 15, "luck": 7,"cp_current":3,"abilities": ["Ice Spike", "Barrier"]},
-	#{"name": "Connall", "agility": 12, "health": 100, "bep_max": 20, "level": 12, "strength": 25,
-	 #"vitality": 20, "magic": 5, "spirit": 10, "luck": 3,"cp_current":1, "abilities": ["Slash", "Power Strike"]}
-#]
 var party_data = load_party_data()
 
 var enemy_data = [
@@ -84,26 +76,18 @@ func _ready():
 	
 func load_party_data():
 	if not FileAccess.file_exists(party_data_save_path):
-		return
-	var file_access = FileAccess.open(party_data_save_path, FileAccess.READ)
-	var party_data_str = file_access.get_line()
-	file_access.close()
-	var json := JSON.new()
-	var error := json.parse(party_data_str)
-	if error:
 		print("LOAD PARTY EXCEPTION")
 		return
-	var party_data:Dictionary = json.data
+	var party_data:PartyData = load(party_data_save_path)
 	return party_data
 	
 func save_party_data():
-	var party_data_str = JSON.stringify(get_party_data())
-	var file_access = FileAccess.open(party_data_save_path, FileAccess.WRITE)
-	if not file_access:
+	var party_data_save = PartyData.new()
+	party_data_save.party_data = party_data
+	var error := ResourceSaver.save(party_data_save, party_data_save_path)
+	if error:
 		print("SAVE PARTY EXCEPTION")
 		return
-	file_access.store_line(party_data_str)
-	file_access.close()
 	
 func get_party_data():
 	for party_member in party:

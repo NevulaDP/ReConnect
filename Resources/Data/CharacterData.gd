@@ -1,5 +1,5 @@
 extends Resource
-class_name CharacterResource
+class_name CharacterData
 
 @export var c_name: String = ""
 @export var agility: int = 10
