@@ -28,7 +28,7 @@ var current_action = ActionType.ATTACK  # Default action
 var is_dead:bool = false
 #example for modifier dictionary, should be loaded from a resource or json
 var mod = {"Arlan":[20,30,30,40,50],"Aislin":[18,28,28,38,48],"Connall":[23,33,33,43,53]}
-var party_data_save_path = "user://party_data.dat"
+var party_data_save_path = "user://save_data/party_data.json"
 
 signal turn_ready
 signal turn_ended
@@ -60,16 +60,24 @@ func load_party_data():
 	if not FileAccess.file_exists(party_data_save_path):
 		print("LOAD PARTY EXCEPTION")
 		return
-	var party_data:PartyData = load(party_data_save_path)
-	return party_data
+	var file_access := FileAccess.open(party_data_save_path, FileAccess.READ)
+	var json_string := file_access.get_line()
+	file_access.close()
+	var json := JSON.new()
+	var error := json.parse(json_string)
+	if error:
+		print("LOAD PARTY EXCEPTION")
+		return
+	return json.data
 	
 func save_party_data(party_data):
-	var party_data_save = PartyData.new()
-	party_data_save.party_data = party_data
-	var error := ResourceSaver.save(party_data_save, party_data_save_path)
-	if error:
+	var json_string := JSON.stringify(party_data)
+	var file_access := FileAccess.open(party_data_save_path, FileAccess.WRITE)
+	if not file_access:
 		print("SAVE PARTY EXCEPTION")
 		return
+	file_access.store_line(json_string)	
+	file_access.close()
 	
 func start_turn():
 	used_ability = false
@@ -94,7 +102,7 @@ func attack():
 		var original_place = self.position
 		await basic_attack_anim_in()
 		var damage = strength
-		print("ATTACK: char=%s, target=%s, damage=%" % [c_name, target, String(damage)])
+		print("ATTACK: char=%s, target=%s, damage=%" % [c_name, target, damage])
 		await basic_attack_anim_out(original_place)
 		await target.take_damage(damage, self)		
 		return
