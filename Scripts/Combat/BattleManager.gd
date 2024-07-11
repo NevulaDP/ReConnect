@@ -14,7 +14,7 @@ enum CounterActionType { LUNATTACK, RETALIATE }
 
 signal active_status_bar_changed(active_bar)
 
-var party= []
+var party = []
 var enemies = []
 var all_combatants = []
 var active_battle = false
@@ -25,20 +25,12 @@ var status_bars = []
 var target_selector = null
 var statusbar_index
 var last_action
-var party_data_save_path = "user://party_data.json"
+var party_data_save_path = "user://save_data/party_data.json"
 
 ### positions ###
 
 ##Test party##
-#var party_data = [
-	#{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 40, "level": 10, "strength": 20,
-	 #"vitality": 15, "magic": 8, "spirit": 12, "luck": 5, "cp_current":5,"abilities": ["Fireball", "Heal"]},
-	#{"name": "Aislin", "agility": 10, "health": 100, "bep_max": 100, "level": 8, "strength": 10,
-	 #"vitality": 10, "magic": 20, "spirit": 15, "luck": 7,"cp_current":3,"abilities": ["Ice Spike", "Barrier"]},
-	#{"name": "Connall", "agility": 12, "health": 100, "bep_max": 20, "level": 12, "strength": 25,
-	 #"vitality": 20, "magic": 5, "spirit": 10, "luck": 3,"cp_current":1, "abilities": ["Slash", "Power Strike"]}
-#]
-var party_data = load_party_data()
+var party_data = []
 
 var enemy_data = [
 	 {
@@ -84,38 +76,26 @@ func _ready():
 	
 func load_party_data():
 	if not FileAccess.file_exists(party_data_save_path):
+		print("LOAD PARTY EXCEPTION")
 		return
-	var file_access = FileAccess.open(party_data_save_path, FileAccess.READ)
-	var party_data_str = file_access.get_line()
+	var file_access := FileAccess.open(party_data_save_path, FileAccess.READ)
+	var json_string := file_access.get_line()
 	file_access.close()
 	var json := JSON.new()
-	var error := json.parse(party_data_str)
+	var error := json.parse(json_string)
 	if error:
 		print("LOAD PARTY EXCEPTION")
 		return
-	var party_data:Dictionary = json.data
-	return party_data
+	return json.data
 	
 func save_party_data():
-	var party_data_str = JSON.stringify(get_party_data())
-	var file_access = FileAccess.open(party_data_save_path, FileAccess.WRITE)
+	var json_string := JSON.stringify(party_data)
+	var file_access := FileAccess.open(party_data_save_path, FileAccess.WRITE)
 	if not file_access:
 		print("SAVE PARTY EXCEPTION")
 		return
-	file_access.store_line(party_data_str)
+	file_access.store_line(json_string)	
 	file_access.close()
-	
-func get_party_data():
-	for party_member in party:
-		# get individual party member data
-		var x = 0
-	return [{"name": "Arlan", "agility": 15, "health": 100, "bep_max": 40, "level": 10, "strength": 20,
-	 "vitality": 15, "magic": 8, "spirit": 12, "luck": 5, "cp_current":5,"abilities": ["Fireball", "Heal"]},
-	{"name": "Aislin", "agility": 10, "health": 100, "bep_max": 100, "level": 8, "strength": 10,
-	 "vitality": 10, "magic": 20, "spirit": 15, "luck": 7,"cp_current":3,"abilities": ["Ice Spike", "Barrier"]},
-	{"name": "Connall", "agility": 12, "health": 100, "bep_max": 20, "level": 12, "strength": 25,
-	 "vitality": 20, "magic": 5, "spirit": 10, "luck": 3,"cp_current":1, "abilities": ["Slash", "Power Strike"]}
-]
 
 func position_characters():
 	var screen_width = get_viewport().size.x
@@ -131,18 +111,24 @@ func position_characters():
 		
 # Init Party
 func init_party():
-	for data in party_data:
-		var member = party_member_scene.instantiate()
-		member.set_data(data)
-		member.connect("turn_ended", Callable(self, "_on_turn_ended"))
-		member.connect("stats_changed", Callable(self, "_on_stats_changed"))
-		add_child(member)
-		party.append(member)
- 		# assign character node to the corresponding status bar
-		var status_bar = status_bar_scene.instantiate()
-		status_bar.set_character(member)  # use a method to set the character
-		$StatusBarContainer.add_child(status_bar)
-		status_bars.append(status_bar)
+	party_data = load_party_data()
+	print(party_data)
+	#C:/Users/{user}/AppData/Roaming/Godot/app_userdata/ReCo_Combat
+	if party_data:
+		for data in party_data:
+			var member = party_member_scene.instantiate()
+			member.set_data(data)
+			member.connect("turn_ended", Callable(self, "_on_turn_ended"))
+			member.connect("stats_changed", Callable(self, "_on_stats_changed"))
+			add_child(member)
+			party.append(member)
+	 		# assign character node to the corresponding status bar
+			var status_bar = status_bar_scene.instantiate()
+			status_bar.set_character(member)  # use a method to set the character
+			$StatusBarContainer.add_child(status_bar)
+			status_bars.append(status_bar)
+	else:
+		get_tree().quit(-1)
 		
 func init_enemies():
 	for data in enemy_data:
