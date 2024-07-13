@@ -40,8 +40,6 @@ func set_character(char: Node):
 func update_status():
 	if character == null:
 		return
-	print(character.be_atk)
-	print(character.be_atk_max)
 	$BEPBar.value = float(character.be_atk) / character.be_atk_max * 100
 	$HPBar.value = float(character.health)/character.health_max * 100
 	$CharacterLabel.text=character.c_name

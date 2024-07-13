@@ -16,6 +16,7 @@ enum CounterActionType { LUNATTACK, RETALIATE }
 @export var bioenergy:int = 10
 @export var spirit:int = 10
 @export var luck:int = 10
+@export var reward_xp:int = 10
 @export var counter_conditions: Dictionary = {}  # Dictionary to store counter conditions and their actions
 
 var cp_current:int =0
@@ -23,7 +24,7 @@ var used_ability: bool = false
 var target = null # target of current action
 var current_action = ActionType.ATTACK  # Default action
 var is_dead:bool = false
-var is_countering:bool =false
+var is_countering:bool = false
 
 
 signal turn_ready
@@ -42,9 +43,9 @@ func perform_action():
 		ActionType.DEFEND:
 			defend()
 		ActionType.ABILITY:
-			if cp_current >=1 and bep_current >=1:
-				cp_current -=1
-				bep_current -=6
+			if cp_current >= 1 and bep_current >= 1:
+				cp_current -= 1
+				bep_current -= 6
 				used_ability=true
 				use_ability()
 	end_turn()
@@ -70,7 +71,7 @@ func use_ability():
 	print (name + "used an ability")
 
 func is_defeated():
-	return health<=0
+	return health <= 0
 	
 func end_turn():
 	emit_signal("stats_changed")
@@ -96,8 +97,8 @@ func set_data(data):
 	#used_ability=false
 	
 func take_damage(amount:int, attacker: Node):
-	health-=amount
-	if health <=0:
+	health -= amount
+	if health <= 0:
 		die()
 		return
 	else:

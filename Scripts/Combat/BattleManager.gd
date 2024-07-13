@@ -75,11 +75,13 @@ func _ready():
 	start_battle()
 	
 func load_party_data():
+	print("LOAD PARTY DATA")
 	if not FileAccess.file_exists(party_data_save_path):
 		print("LOAD PARTY EXCEPTION")
 		return
 	var file_access := FileAccess.open(party_data_save_path, FileAccess.READ)
-	var json_string := file_access.get_line()
+	var json_string := file_access.get_as_text()
+	print(json_string)
 	file_access.close()
 	var json := JSON.new()
 	var error := json.parse(json_string)
@@ -89,12 +91,13 @@ func load_party_data():
 	return json.data
 	
 func save_party_data():
+	print("SAVE PARTY DATA")
 	var json_string := JSON.stringify(party_data)
 	var file_access := FileAccess.open(party_data_save_path, FileAccess.WRITE)
 	if not file_access:
 		print("SAVE PARTY EXCEPTION")
 		return
-	file_access.store_line(json_string)	
+	file_access.store_string(json_string)	
 	file_access.close()
 
 func position_characters():
@@ -112,7 +115,6 @@ func position_characters():
 # Init Party
 func init_party():
 	party_data = load_party_data()
-	print(party_data)
 	#C:/Users/{user}/AppData/Roaming/Godot/app_userdata/ReCo_Combat
 	if party_data:
 		for data in party_data:
@@ -139,15 +141,6 @@ func init_enemies():
 		enemies.append(enemy)
 
 func init_ui():
-	#for member in party:
-		#var status_bar = status_bar_scene.instantiate()
-		#add_child(status_bar)
-		#status_bar.character = member
-		#status_bars.append(status_bar)
-	#action_menu = action_menu_scene.instantiate()
-	#add_child(action_menu)
-	#action_menu.hide()
-	#action_menu.connect("action_selected",Callable(self,"_on_action_selected"))
 	pass
 
 func init_target_selector():
@@ -191,9 +184,9 @@ func start_turn(character):
 # Handle end of turn
 func _on_turn_ended():
 	if current_turn in party and !current_turn.used_ability:
-		current_turn.cp_current += 1
-		if current_turn.cp_current > current_turn.cp_max:
-			current_turn.cp_current = current_turn.cp_max
+		current_turn.charge += 1
+		if current_turn.charge > current_turn.charge_max:
+			current_turn.charge = current_turn.charge_max
 		current_turn.emit_signal("stats_changed")	
 	current_turn.used_ability = false
 	# store current combatant
@@ -204,7 +197,7 @@ func _on_turn_ended():
 	# recalculate turn order
 	all_combatants.sort_custom(func(a, b): return a.agility > b.agility)
 	# find the index of the current combatant in the new turn order
-	current_turn_index=all_combatants.find(current_combatant)
+	current_turn_index = all_combatants.find(current_combatant)
 	# determine next combatant
 	current_turn_index = (current_turn_index + 1) % all_combatants.size()
 	start_turn(all_combatants[current_turn_index])
